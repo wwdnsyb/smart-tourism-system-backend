@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: smart-tourism-system
+  datasource:
+    url: jdbc:mysql://localhost:3306/smart_tourism?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 88888888
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# 智谱 AI（Zhipu AI）
+# 这里放的是机密信息，只有服务器知道
+zhipu:
+  api-key: "f8b1f1a7735a4fd983462fd1953092a3.WmySbGn4eJ9wAszA"
+  url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
