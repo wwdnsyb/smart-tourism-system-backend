@@ -17,8 +17,8 @@ public class OrdersController {
     @Autowired
     private OrdersRepository ordersRepository;
 
-    // 1. 创建订单
-    @PostMapping("/create")
+    // 🔥 核心修改：去掉了 "/create"，现在路径直接是 POST /api/orders，完美匹配前端代码！
+    @PostMapping
     public Map<String, Object> createOrder(@RequestBody Orders order) {
         Map<String, Object> res = new HashMap<>();
 
@@ -39,6 +39,7 @@ public class OrdersController {
     @GetMapping("/user/{userName}")
     public Map<String, Object> getUserOrders(@PathVariable String userName) {
         Map<String, Object> res = new HashMap<>();
+        // 注意：这里需要确保你的 OrdersRepository 里确实定义了 findByUserNameOrderByCreateTimeDesc 方法哦
         List<Orders> orders = ordersRepository.findByUserNameOrderByCreateTimeDesc(userName);
 
         res.put("code", 200);

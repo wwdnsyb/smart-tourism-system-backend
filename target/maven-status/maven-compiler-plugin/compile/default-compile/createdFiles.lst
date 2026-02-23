@@ -7,6 +7,7 @@ com\example\smarttourism\entity\ScenicSpot.class
 com\example\smarttourism\service\AiService.class
 com\example\smarttourism\controller\UserController.class
 com\example\smarttourism\controller\HelloController.class
+com\example\smarttourism\controller\OrdersController.class
 com\example\smarttourism\repository\OrdersRepository.class
 com\example\smarttourism\service\impl\AttractionServiceImpl.class
 com\example\smarttourism\controller\HotelController.class

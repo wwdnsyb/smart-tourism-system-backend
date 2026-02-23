@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
-    // 👇👇👇 必须加这一行！👇👇👇
     // 作用：自动生成 SQL "SELECT * FROM user WHERE username = ?"
     User findByUsername(String username);
-
 }

@@ -11,6 +11,7 @@ public class ScenicSpot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String name;        // 景点名称
@@ -32,5 +33,6 @@ public class ScenicSpot {
 
     private String category;    // 🔥 新增：分类 (数据库里有，前端筛选要用)
 
-    // 注意：数据库里没有 content 字段，所以我删掉了，否则会报错
+    private Double longitude;
+    private Double latitude;
 }

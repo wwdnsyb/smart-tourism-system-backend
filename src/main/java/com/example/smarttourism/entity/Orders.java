@@ -1,5 +1,7 @@
 package com.example.smarttourism.entity;
 
+// 🔥 1. 这里新增了 Jackson 的注解包，用来处理 JSON 和 Java 对象之间的日期转换
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,9 +27,13 @@ public class Orders {
 
     private String phone;
 
+    // 🔥 2. 核心修改：明确告诉 Spring Boot，前端传过来的是 "yyyy-MM-dd" 格式的字符串
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @Column(name = "check_in")
     private LocalDate checkIn;
 
+    // 🔥 3. 核心修改：同样处理离店时间
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @Column(name = "check_out")
     private LocalDate checkOut;
 
@@ -35,6 +41,8 @@ public class Orders {
 
     private String status; // PAID, CANCELLED
 
+    // 🔥 4. 顺手优化：规范订单创建时间的格式（精确到秒）
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "create_time")
     private LocalDateTime createTime;
 
