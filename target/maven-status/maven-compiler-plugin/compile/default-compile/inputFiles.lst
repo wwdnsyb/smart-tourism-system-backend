@@ -1,5 +1,6 @@
 D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\service\impl\UserServiceImpl.java
 D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\repository\UserRepository.java
+D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\controller\AliPayController.java
 D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\controller\HotelController.java
 D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\service\impl\AiServiceImpl.java
 D:\finalyearproject\smart_tourism_system_backend\src\main\java\com\example\smarttourism\entity\Orders.java

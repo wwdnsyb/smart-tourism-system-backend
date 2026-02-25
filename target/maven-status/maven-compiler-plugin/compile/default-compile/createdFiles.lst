@@ -25,5 +25,6 @@ com\example\smarttourism\repository\UserRepository.class
 com\example\smarttourism\entity\User.class
 com\example\smarttourism\entity\Attraction.class
 com\example\smarttourism\controller\AttractionController.class
+com\example\smarttourism\controller\AliPayController.class
 com\example\smarttourism\service\impl\UserServiceImpl.class
 com\example\smarttourism\service\UserService.class
