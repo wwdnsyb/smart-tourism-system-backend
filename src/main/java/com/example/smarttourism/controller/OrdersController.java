@@ -72,4 +72,29 @@ public class OrdersController {
         }
         return res;
     }
+
+    // 🔥 新增：专门用来把订单状态改成“已支付”的接口
+    @PostMapping("/paySuccess")
+    public Map<String, Object> paySuccess(@RequestParam String orderNo,
+                                          @RequestParam(required = false) String alipayTradeNo) {
+        Map<String, Object> res = new HashMap<>();
+
+        Orders order = ordersRepository.findByOrderNo(orderNo);
+
+        if (order != null && "UNPAID".equals(order.getStatus())) {
+            order.setStatus("PAID"); // 变成已支付
+            if (alipayTradeNo != null) {
+                order.setAlipayTradeNo(alipayTradeNo); // 记录支付宝流水号
+            }
+            order.setPayTime(java.time.LocalDateTime.now()); // 记录时间
+            ordersRepository.save(order);
+
+            res.put("code", 200);
+            res.put("msg", "订单状态更新成功！");
+        } else {
+            res.put("code", 400);
+            res.put("msg", "订单不存在或已处理");
+        }
+        return res;
+    }
 }

@@ -32,7 +32,7 @@ alipay:
   alipayPublicKey: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg59ru8DVO+M4abJjWYdql0xO8DlYBalXnATcHYFBttSf0fMdBY77xCT6Gke4+/ZFmLoKZI7vbZW+Vx9U/Y/Xs/J3D0PkdatGqYVwqRZBMuNFLl9xTr9O6FtZu4sod25i+Im83z26ItN3gi87PIu48JrQRkPLc1HE/noAcaur4F4rOTon5glDS7v3wJorjgUbkb/wCzBgsBfqHJ6i4C8XwAp8s3+FHDsxYxKqlzi9Z6/s5VYdA+aSnZTBRJvYeBe6+STEJmGRvV2DiUgyW1IfwP+XE6Wvdyp+mCzjuTvHl9DfyzqszarCzXyobRUWtFtod6ttPxJFYDPDmpNQ9N1NvQIDAQAB"
   # 沙箱网关地址（固定不变，千万别填成正式环境的）
   gatewayUrl: "https://openapi-sandbox.dl.alipaydev.com/gateway.do"
-  # 付款成功后，页面跳回你前台的哪个网址？(假设你的Vue跑在5173端口)
-  returnUrl: "http://localhost:5173/orders"
+  # 🔥 修改了这里！
+  returnUrl: "http://localhost:5173/user"
   # 付款成功后，支付宝偷偷通知你后端的哪个接口？(我们下一步写这个接口)
   notifyUrl: "http://localhost:8080/api/alipay/notify"

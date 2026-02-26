@@ -47,11 +47,23 @@ public class Orders {
     private LocalDateTime createTime;
 
     // 自动填充创建时间和默认状态
+// 🔥 把之前的默认 PAID 改成 UNPAID
     @PrePersist
     public void prePersist() {
         this.createTime = LocalDateTime.now();
         if (this.status == null) {
-            this.status = "PAID";
+            this.status = "UNPAID"; // 真正变成待支付！
         }
     }
+
+    // 🔥 加上字段映射，确保不出错
+    @Column(name = "order_no")
+    private String orderNo;
+
+    @Column(name = "alipay_trade_no")
+    private String alipayTradeNo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Column(name = "pay_time")
+    private LocalDateTime payTime;
 }

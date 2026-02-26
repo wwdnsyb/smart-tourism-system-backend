@@ -40,4 +40,6 @@ public class User {
             this.role = "USER"; // 默认角色
         }
     }
+    private String email;
+    private String avatar;
 }
