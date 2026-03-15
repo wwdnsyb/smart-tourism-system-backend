@@ -1,13 +1,18 @@
 package com.example.smarttourism.entity;
 
 import lombok.Data;
-import javax.persistence.*; // 如果是 Spring Boot 3+，这里可能是 jakarta.persistence
+import javax.persistence.*;
+import java.io.Serializable; // 🔥 必须导入
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "user")
-public class User {
+// 🔥 核心点：实现 Serializable 接口，这是 Redis 存储对象的“准入证”
+public class User implements Serializable {
+
+    // 🔥 建议显式声明版本号（防止改代码后 Redis 反序列化失败）
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,30 +21,27 @@ public class User {
     @Column(nullable = false, unique = true, length = 64)
     private String username;
 
-    // 🔥 新增：密码 (必须有，否则无法登录)
     @Column(nullable = false)
     private String password;
 
-    // 🔥 新增：手机号 (注册时用)
     private String phone;
 
-    // 🔥 新增：角色 (区分 USER 和 ADMIN)
     private String role;
 
-    // 🔥 新增：创建时间 (对应数据库 create_time)
     @Column(name = "create_time")
     private LocalDateTime createTime;
 
-    // 自动填充创建时间
+    private String email;
+
+    private String avatar;
+
     @PrePersist
     public void prePersist() {
         if (this.createTime == null) {
             this.createTime = LocalDateTime.now();
         }
         if (this.role == null) {
-            this.role = "USER"; // 默认角色
+            this.role = "USER";
         }
     }
-    private String email;
-    private String avatar;
 }

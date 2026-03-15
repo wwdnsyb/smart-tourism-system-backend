@@ -2,16 +2,18 @@ package com.example.smarttourism.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable; // 🔥 1. 导入序列化接口包
 import java.math.BigDecimal;
 
 @Data
 @Entity
 @Table(name = "scenic_spot")
-public class ScenicSpot {
+public class ScenicSpot implements Serializable { // 🔥 2. 加上 implements Serializable
+
+    private static final long serialVersionUID = 1L; // 🔥 3. 加上序列化版本号
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     private String name;        // 景点名称

@@ -6,6 +6,8 @@ import com.example.smarttourism.repository.OrdersRepository;
 import com.example.smarttourism.repository.ScenicSpotRepository;
 import com.example.smarttourism.service.ScenicSpotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict; // 🔥 新增：清除缓存注解
+import org.springframework.cache.annotation.Cacheable; // 🔥 新增：存入缓存注解
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +21,12 @@ import java.util.Map;
  * 提供标准 RESTful 接口供前端调用
  */
 @RestController
-@RequestMapping("/api/scenic-spots") // 路径保持你的不变
+@RequestMapping("/api/scenic-spots")
 @CrossOrigin(origins = "*")
 public class ScenicSpotController {
 
     private final ScenicSpotService scenicSpotService;
 
-    // 🔥 新增：注入 Repository 用于推荐算法直接查询
     @Autowired
     private ScenicSpotRepository scenicSpotRepository;
     @Autowired
@@ -36,8 +37,11 @@ public class ScenicSpotController {
     }
 
     /* ==================================================
-       保留你原有的标准 CRUD 接口 (完全没有改动)
+       标准 CRUD 接口 (加入了 Redis 缓存逻辑)
        ================================================== */
+
+    // 🔥 核心修改 1：查全部景点时，走 Redis 缓存！
+    @Cacheable(value = "scenicSpotsList")
     @GetMapping
     public List<ScenicSpot> list() {
         return scenicSpotService.findAll();
@@ -50,12 +54,16 @@ public class ScenicSpotController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // 🔥 核心修改 2：新增景点后，立刻清空 Redis 里的旧缓存！
+    @CacheEvict(value = "scenicSpotsList", allEntries = true)
     @PostMapping
     public ResponseEntity<ScenicSpot> create(@RequestBody ScenicSpot scenicSpot) {
         ScenicSpot created = scenicSpotService.create(scenicSpot);
         return ResponseEntity.created(URI.create("/api/scenic-spots/" + created.getId())).body(created);
     }
 
+    // 🔥 核心修改 3：修改景点后，立刻清空 Redis 里的旧缓存！
+    @CacheEvict(value = "scenicSpotsList", allEntries = true)
     @PutMapping("/{id}")
     public ResponseEntity<ScenicSpot> update(@PathVariable Long id, @RequestBody ScenicSpot scenicSpot) {
         try {
@@ -66,6 +74,8 @@ public class ScenicSpotController {
         }
     }
 
+    // 🔥 核心修改 4：删除景点后，立刻清空 Redis 里的旧缓存！
+    @CacheEvict(value = "scenicSpotsList", allEntries = true)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         scenicSpotService.deleteById(id);
@@ -73,7 +83,7 @@ public class ScenicSpotController {
     }
 
     /* ==================================================
-       🔥 核心新增：智能推荐算法接口
+       智能推荐算法接口
        ================================================== */
     @GetMapping("/recommend/{userName}")
     public Map<String, Object> getRecommendations(@PathVariable String userName) {
